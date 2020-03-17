@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding ="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" >
+  <PropertyGroup Label="Globals" >
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{144d6721-c69c-4546-b858-fa13d413522d}</ItemsProjectGuid>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)src\MySQL_Connection.cpp" />
+<ClCompile Include="$(MSBuildThisFileDirectory)src\MySQL_Cursor.cpp" />
+<ClCompile Include="$(MSBuildThisFileDirectory)src\MySQL_Encrypt_Sha1.cpp" />
+<ClCompile Include="$(MSBuildThisFileDirectory)src\MySQL_Packet.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)src\MySQL_Connection.h" />
+<ClInclude Include="$(MSBuildThisFileDirectory)src\MySQL_Cursor.h" />
+<ClInclude Include="$(MSBuildThisFileDirectory)src\MySQL_Encrypt_Sha1.h" />
+<ClInclude Include="$(MSBuildThisFileDirectory)src\MySQL_Packet.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="$(MSBuildThisFileDirectory)CHANGES.txt" />
+<Text Include="$(MSBuildThisFileDirectory)keywords.txt" />
+<Text Include="$(MSBuildThisFileDirectory)library.properties" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)README.md" />
+  </ItemGroup>
+</Project>

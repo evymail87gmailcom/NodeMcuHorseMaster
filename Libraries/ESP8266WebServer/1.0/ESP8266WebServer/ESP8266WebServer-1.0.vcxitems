@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding ="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" >
+  <PropertyGroup Label="Globals" >
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{6f5bdc44-fc86-4cf2-87e3-ad8cfa3fa23b}</ItemsProjectGuid>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)src\detail\mimetable.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)src\ESP8266WebServer-impl.h" />
+<ClInclude Include="$(MSBuildThisFileDirectory)src\ESP8266WebServer.h" />
+<ClInclude Include="$(MSBuildThisFileDirectory)src\ESP8266WebServerSecure.h" />
+<ClInclude Include="$(MSBuildThisFileDirectory)src\Parsing-impl.h" />
+<ClInclude Include="$(MSBuildThisFileDirectory)src\detail\mimetable.h" />
+<ClInclude Include="$(MSBuildThisFileDirectory)src\detail\RequestHandler.h" />
+<ClInclude Include="$(MSBuildThisFileDirectory)src\detail\RequestHandlersImpl.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="$(MSBuildThisFileDirectory)keywords.txt" />
+<Text Include="$(MSBuildThisFileDirectory)library.properties" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)README.rst" />
+  </ItemGroup>
+</Project>

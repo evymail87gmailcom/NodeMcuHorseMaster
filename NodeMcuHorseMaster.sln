@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29326.143
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NodeMcuHorseMaster", "NodeMcuHorseMaster.vcxproj", "{C5F80730-F44F-4478-BDAE-6634EFC2CA88}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ESP8266WiFi-1.0", "Libraries\ESP8266WiFi\1.0\ESP8266WiFi\ESP8266WiFi-1.0.vcxitems", "{377ED816-2226-4E0E-A97A-AF408C404EEC}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ESP8266WebServer-1.0", "Libraries\ESP8266WebServer\1.0\ESP8266WebServer\ESP8266WebServer-1.0.vcxitems", "{6F5BDC44-FC86-4CF2-87E3-AD8CFA3FA23B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MySQL_Connector_Arduino-1.1.1-1.1.1", "Libraries\MySQL_Connector_Arduino-1.1.1\1.1.1\MySQL_Connector_Arduino-1.1.1\MySQL_Connector_Arduino-1.1.1-1.1.1.vcxitems", "{144D6721-C69C-4546-B858-FA13D413522D}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ethernet-1.0.4", "Libraries\Ethernet\1.0.4\Ethernet\Ethernet-1.0.4.vcxitems", "{8F8E3635-8464-4484-A21F-628BAF50D830}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Wire-1.0", "Libraries\Wire\1.0\Wire\Wire-1.0.vcxitems", "{0935B623-3B5B-4F27-842F-C43BBD413A83}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Blynk-0.6.1", "Libraries\Blynk\0.6.1\Blynk\Blynk-0.6.1.vcxitems", "{F580B43E-A78F-4202-81CC-A2101338D076}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Libraries\Wire\1.0\Wire\Wire-1.0.vcxitems*{0935b623-3b5b-4f27-842f-c43bbd413a83}*SharedItemsImports = 9
+		Libraries\MySQL_Connector_Arduino-1.1.1\1.1.1\MySQL_Connector_Arduino-1.1.1\MySQL_Connector_Arduino-1.1.1-1.1.1.vcxitems*{144d6721-c69c-4546-b858-fa13d413522d}*SharedItemsImports = 9
+		Libraries\ESP8266WiFi\1.0\ESP8266WiFi\ESP8266WiFi-1.0.vcxitems*{377ed816-2226-4e0e-a97a-af408c404eec}*SharedItemsImports = 9
+		Libraries\ESP8266WebServer\1.0\ESP8266WebServer\ESP8266WebServer-1.0.vcxitems*{6f5bdc44-fc86-4cf2-87e3-ad8cfa3fa23b}*SharedItemsImports = 9
+		Libraries\Ethernet\1.0.4\Ethernet\Ethernet-1.0.4.vcxitems*{8f8e3635-8464-4484-a21f-628baf50d830}*SharedItemsImports = 9
+		Libraries\Blynk\0.6.1\Blynk\Blynk-0.6.1.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
+		Libraries\ESP8266WebServer\1.0\ESP8266WebServer\ESP8266WebServer-1.0.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
+		Libraries\ESP8266WiFi\1.0\ESP8266WiFi\ESP8266WiFi-1.0.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
+		Libraries\MySQL_Connector_Arduino-1.1.1\1.1.1\MySQL_Connector_Arduino-1.1.1\MySQL_Connector_Arduino-1.1.1-1.1.1.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
+		Libraries\Wire\1.0\Wire\Wire-1.0.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
+		Libraries\Blynk\0.6.1\Blynk\Blynk-0.6.1.vcxitems*{f580b43e-a78f-4202-81cc-a2101338d076}*SharedItemsImports = 9
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C5F80730-F44F-4478-BDAE-6634EFC2CA88}.Debug|x86.ActiveCfg = Debug|Win32
+		{C5F80730-F44F-4478-BDAE-6634EFC2CA88}.Debug|x86.Build.0 = Debug|Win32
+		{C5F80730-F44F-4478-BDAE-6634EFC2CA88}.Release|x86.ActiveCfg = Release|Win32
+		{C5F80730-F44F-4478-BDAE-6634EFC2CA88}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FC13EE00-B551-4F30-9906-F0928D02B870}
+	EndGlobalSection
+EndGlobal
