@@ -18,9 +18,12 @@ BlynkTimer timer;
 //const char* ssid = "STI Student";
 //const char* netPassword = "STI1924stu";
 
-const char* ssid = "#Telia-5BB008";
-const char* netPassword = "A()Zc14yN1#uZw8)";
+//const char* ssid = "#Telia-5BB008";
+//const char* netPassword = "A()Zc14yN1#uZw8)";
+//Mickes place
 
+const char* ssid = "Bitoki";
+const char* netPassword = "aabbccddee";
 
 // Set web server port number to 80
 WiFiServer server(80);
@@ -29,7 +32,8 @@ MySQL_Connection conn((Client*)&client);
 WiFiClient mySqlClient;
 MySQL_Connection mySqlConnection((Client*)&mySqlClient);
 //IPAddress serverAdress(172, 16, 116, 88);//IP that MySql is connected to. Not the Arduino Server.
-IPAddress serverAdress(192,168,1,101);//IP that MySql is connected to. Not the Arduino Server.
+//IPAddress serverAdress(192,168,1,101);//IP that MySql is connected to. Not the Arduino Server.
+IPAddress serverAdress(192,168,0,146);//IP that MySql is connected to. Not the Arduino Server.);//IP that MySql is connected to. Not the Arduino Server.
 //MySql user and password
 char user[] = "kurs1234";
 char password[] = "kurs1234";
