@@ -10,9 +10,13 @@ const char* ssid = "#Telia-5BB008";
 const char* netPassword = "A()Zc14yN1#uZw8)";
 BlynkTimer timer;
 HorseMaster myMaster;
+unsigned long timedEvent1 = 40000;
+unsigned long currentTime = 0;
+unsigned long timedEvent2 = 1000;
+unsigned long currentTime2 = 0;
 
 void setup() {
-	//function for startSequenses here
+	//Function for startSequenses here
 	Serial.begin(115200);
 	myMaster.startUps();
 	//Code to connect to Blynk
@@ -22,14 +26,18 @@ void setup() {
 }
 
 void loop() {
-
+	
 	Blynk.run();
 	timer.run();
+	
+	
+	if (timedEvent1 + currentTime >= millis()) {
+		myMaster.getDataFromSlave();
+		myMaster.sendDataToSql();
+		myMaster.getDataFromSql();
+		currentTime = millis();
+	}
 
-	//Start for getDataFromSlave
-	myMaster.getDataFromSlave();
-	myMaster.sendDataToSql();
-	myMaster.getDataFromSql();
 	myMaster.sendDataToWeb();
 }
 
@@ -39,7 +47,7 @@ void pushMessage()
 }
 
 
-//The Value of V1 should control the blinkTest-Function on the slave-device
+//The Value of V0 controls the blinkTest-Function on the slave-device
 BLYNK_WRITE(V0) {
 	pinValue[0] = param.asInt();
 	

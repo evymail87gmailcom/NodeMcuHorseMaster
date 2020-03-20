@@ -7,33 +7,16 @@ MySQL_Connection mySqlConnection((Client*)&mySqlClient);
 
 void HorseMaster::getDataFromSlave() {
 	int getValue[5];
-
+	int counter = 0;
 	Wire.requestFrom(8, 6); //request and read data of size 13 from slave(8)
 		
-	//Alternative code 
-		/*
-		distance = Wire.read();
-		steps = Wire.read();
-		sound = Wire.read();
-		horsePower = Wire.read();
-		gas = Wire.read();
-		Serial.print("Distance: ");
-		Serial.println(distance);
-		Serial.print("Steps: ");
-		Serial.println(steps);
-		Serial.print("Sound: ");
-		Serial.println(sound);
-		Serial.print("HorsePower: ");
-		Serial.println(horsePower);
-		Serial.print("Gas: ");
-		Serial.println(gas);
-		*/
-	for (int i = 0; i <= Wire.available();i++) {
+	while(Wire.available()) {
 		
-		getValue[i] = Wire.read();
+		getValue[counter] = Wire.read();
 		Serial.print("Read from wire: ");
-		Serial.print(getValue[i]);
-
+		Serial.print(getValue[counter]);
+		Serial.print(" ");
+		counter++;
 	}
 	Serial.println();
 	for (int i = 0; i <= 5; i++)
@@ -76,8 +59,6 @@ void HorseMaster::getDataFromSlave() {
 			
 		}
 	
-
-
 };
 int HorseMaster::getDistance() {
 	return distance;
@@ -287,6 +268,5 @@ void HorseMaster::startUps() {
 
 }
 void HorseMaster::userInfo() {
-
 
 }
