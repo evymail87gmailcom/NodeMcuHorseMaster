@@ -3,17 +3,16 @@
 #include<BlynkSimpleEsp8266.h>
 #define BLYNK_PRINT Serial
 
+
 int pinValue[2];
-//Blynk password
+//Blynk-key, wifi and  password
 const char auth[] = "4hPSchreMGmafdTADpF1IcNNndo5Byv6";
 const char* ssid = "#Telia-5BB008";
 const char* netPassword = "A()Zc14yN1#uZw8)";
 BlynkTimer timer;
 HorseMaster myMaster;
-unsigned long timedEvent1 = 40000;
+unsigned long timedEvent = 20000;
 unsigned long currentTime = 0;
-unsigned long timedEvent2 = 1000;
-unsigned long currentTime2 = 0;
 
 void setup() {
 	//Function for startSequenses here
@@ -26,24 +25,25 @@ void setup() {
 }
 
 void loop() {
-	
+	//Checks for blynk-events
 	Blynk.run();
 	timer.run();
 	
-	
-	if (timedEvent1 + currentTime >= millis()) {
+	//Transports data between Arduino Uno and MySql every 20 seconds to let each process get enough time to execute.
+	if (timedEvent + currentTime >= millis()) {
 		myMaster.getDataFromSlave();
 		myMaster.sendDataToSql();
 		myMaster.getDataFromSql();
 		currentTime = millis();
 	}
-
+	//Keeps the webserver going
 	myMaster.sendDataToWeb();
 }
 
+//Sends a message to the Blynk-app
 void pushMessage()
 {
-	Blynk.notify(String("Cloudias tempo is: ") + myMaster.getHorsePower());
+	Blynk.notify(String("Cloudia is feeling: ") + myMaster.getSafetyLevel());
 }
 
 

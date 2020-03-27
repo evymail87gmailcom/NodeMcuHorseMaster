@@ -6,19 +6,26 @@ WiFiClient mySqlClient;
 MySQL_Connection mySqlConnection((Client*)&mySqlClient);
 
 void HorseMaster::getDataFromSlave() {
-	int getValue[5];
+	int getValue[] = { 0,0,0,0,0 };
 	int counter = 0;
-	Wire.requestFrom(8, 6); //request and read data of size 13 from slave(8)
+
+	//request and read data of size 6 from slave(8)
+	Wire.requestFrom(8, 6); 
 		
+	//As long as there are bytes to read, the loop will run and read the the result
 	while(Wire.available()) {
-		
-		getValue[counter] = Wire.read();
 		Serial.print("Read from wire: ");
+		//Puts the result in an array
+		getValue[counter] = Wire.read();
+
 		Serial.print(getValue[counter]);
 		Serial.print(" ");
 		counter++;
+		delay(500);
 	}
 	Serial.println();
+
+	//In this case we know the order in wich the information is transmitted. So we know that on place zero i the array we will have the value of distance and so on.
 	for (int i = 0; i <= 5; i++)
 	{	
 			switch (i)
@@ -78,20 +85,19 @@ int HorseMaster::getGas() {
 void HorseMaster::sendDataToSql() {
 
 	Serial.println(F("Recording data."));
-	MySQL_Cursor* cur_mem = new MySQL_Cursor(&mySqlConnection);  // Instans av en MySQL Cursor (där data transporteras)
+	//MySql instans where data is transported
+	MySQL_Cursor* cur_mem = new MySQL_Cursor(&mySqlConnection);  
 
 	// INSERT sensordata
 	String query = "INSERT INTO `findmyhorse`.`horsedata` (`DateTime`,`distance`,`steps`,`sound`,`horsepower`,`gas`) VALUES (now()," + String(getDistance()) + "," + String(getSteps()) + "," + String(getSound()) + "," + String(getHorsePower()) + "," + String(getGas()) + ")";
-	// Mall: INSERT INTO `temphum2`.`temphum` (`DateTime`, `Temp`, `Hum`) VALUES (now(), 22.80, 21.30)
-
+	
 	Serial.println(query);
-	const char* q = query.c_str();                          // Konverterar en sträng till en char-array
-	cur_mem->execute(q);                              // Utför vår query, och stoppar resultatet i cur_mem, en INSERT ger ingen data tillbaka...
+	// Converts a string to a char-array
+	const char* q = query.c_str();         
+	//Executes the query 
+	cur_mem->execute(q);                            
 
 	delete cur_mem;
-	
-	//End of sendDataToSql
-
 	
 }
 void HorseMaster::getDataFromSql() {
@@ -104,11 +110,28 @@ void HorseMaster::getDataFromSql() {
 		row = cur_mem->get_next_row();
 		if (row != NULL) {
 			Serial.print(F("Data from sql: "));
-
-			dateTime = atoi(row->values[1]);
+			//Divides the incoming string into smaller parts 
+			timeNow = (row->values[1]);
+			year = timeNow.substring(0, 4);
+			month = timeNow.substring(5, 7);
+			day = timeNow.substring(8, 10);
+			hour = timeNow.substring(11, 13);
+			minutes = timeNow.substring(14, 16);
+			
+			//To check in the Serialwindow if the format is as we want it to
+			Serial.print(year.toInt());
+			Serial.print("-");
+			Serial.print(month.toInt());
+			Serial.print("-");
+			Serial.print(day.toInt());
+			Serial.print(" ");
+			Serial.print(hour.toInt());
+			Serial.print(":");
+			Serial.println(minutes.toInt());
+			//Checks if what we get from SQL corresponds with the conversion made in the previous step.
 			Serial.print("DateTime: ");
 			Serial.println(row->values[1]);
-
+			
 			distance = atoi(row->values[2]);
 			Serial.print("Distance: ");
 			Serial.println(row->values[2]);
@@ -128,6 +151,26 @@ void HorseMaster::getDataFromSql() {
 			gas = atoi(row->values[6]);
 			Serial.print("Gas: ");
 			Serial.println(row->values[6]);
+			
+			//To get another dataset determined by physical sensor-data
+			if (distance <= 20) {
+				if (gas >= 300) {
+					safetyLevel = "Danger";
+				}
+				else safetyLevel = "Stuck";
+			};
+			if (distance <= 40 && distance> 20) {
+				if (gas >= 300) {
+					safetyLevel = "Danger";
+				}
+				else safetyLevel = "OK";
+			}
+			if (distance > 40) {
+				if (gas >= 300) {
+					safetyLevel = "Danger";
+				}
+				else safetyLevel = "Freedom";
+			}
 
 		}
 
@@ -135,29 +178,36 @@ void HorseMaster::getDataFromSql() {
 
 
 	delete cur_mem;
-	//End of getDataFromSql
+	
+}
+String HorseMaster::getSafetyLevel() {
+	return safetyLevel;
 }
 void HorseMaster::sendDataToWeb() {
-
-	client = server.available();   // Listen for incoming clients
+	
+	// Listen for incoming clients
+	client = server.available();  
 
 	if (client) {
 
-		// If a new client connects,
-		Serial.println("New Client.");          // print a message out in the serial port
-		String currentLine = "";                // make a String to hold incoming data from the client
-
-		while (client.connected()) { // loop while the client's connected
-
-			if (client.available()) {             // if there's bytes to read from the client,
-				char c = client.read();             // read a byte, then
-				Serial.write(c);                    // print it out the serial monitor
+		// If a new client connects,print a message out in the serial port
+		Serial.println("New Client.");          
+		// make a String to hold incoming data from the client
+		String currentLine = "";                
+		// loop while the client's connected
+		while (client.connected()) { 
+			
+			// if there's bytes to read from the client, read a byte, then print it out the serial monitor.		            
+			if (client.available()) {      
+				char c = client.read();
+				Serial.write(c);                    
 				header += c;
-				if (c == '\n') {                    // if the byte is a newline character
+				if (c == '\n') {                    
 				  // if the current line is blank, you got two newline characters in a row.
+				 
 				  // that's the end of the client HTTP request, so send a response:
 					if (currentLine.length() == 0) {
-						//Break this into function webResponse
+						
 						// HTTP headers always start with a response code (e.g. HTTP/1.1 200 OK)
 						// and a content-type so the client knows what's coming, then a blank line:
 						client.println("HTTP/1.1 200 OK");
@@ -171,14 +221,27 @@ void HorseMaster::sendDataToWeb() {
 						client.println("<title>FindMyHorseRobotCloudia</title>");
 
 						//Link to external css
-						client.println("<link rel=\"stylesheet\" href=\"https://evymail87gmailcom.github.io/FindMyHorseWeb/main.css\"></head>");
+						client.println("<link rel=\"stylesheet\" href=\"https://marialoue.github.io/horse-robot-web/main.css\"></head>");
 
 						// Link to external javascript
-						client.print("<body><script src=\"https://evymail87gmailcom.github.io/FindMyHorseWeb/scripts/index-script.js\">");
+						client.print("<body><script src=\"https://marialoue.github.io/horse-robot-web/scripts/index-script.js\">");
 						client.println("</script>");
+						//Script to insert date and time convertet from mySql and display it on the webpage
 						client.println("<script>");
+						client.print("getDateTime(");
+						client.print(year.toInt());
+						client.print(",");
+						client.print(month.toInt());
+						client.print(",");
+						client.print(day.toInt());
+						client.print(",");
+						client.print(hour.toInt());
+						client.print(",");
+						client.print(minutes.toInt());
+						client.println(");");
+						//To insert data from mySql and display it on the webpage
 						client.print("getDataFromNode(");
-						client.print(dateTime);
+						client.print(5);
 						client.print(",");
 						client.print(distance);
 						client.print(",");
@@ -204,8 +267,7 @@ void HorseMaster::sendDataToWeb() {
 				else if (c != '\r') {  // if you got anything else but a carriage return character,
 					currentLine += c;      // add it to the end of the currentLine
 				}
-				//deletes the pointer 
-
+		
 			}
 		}
 		// Clear the header variable
@@ -215,30 +277,29 @@ void HorseMaster::sendDataToWeb() {
 		Serial.println("Client disconnected.");
 		Serial.println("");
 
-
 	}
 }
 void HorseMaster::startUps() {
-	// Replace with your network credentials
+// Replace with your network credentials
 //STI 
 //const char* ssid = "STI Student";
 //const char* netPassword = "STI1924stu";
-//IPAddress serverAdress(172, 16, 116, 88);//IP that MySql is connected to. Not the Arduino Server.
-//MyHome 
+//IPAddress serverAdress(172,16,116,90);//IP that MySql is connected to. Not the Arduino Server.
+
+//Home 
 	const char* ssid = "#Telia-5BB008";
 	const char* netPassword = "A()Zc14yN1#uZw8)";
 	IPAddress serverAdress(192, 168, 1, 101);//IP that MySql is connected to. Not the Arduino Server.
-	//Mickes place
-	//const char* ssid = "Bitoki";
-	//const char* netPassword = "aabbccddee";
-	//IPAddress serverAdress(192,168,0,146);//IP that MySql is connected to. Not the Arduino Server.
+
 	//MySql user and password
 	char user[] = "kurs1234";
 	char password[] = "kurs1234";
+	
 	// Connect to Wi-Fi network with SSID and password
 	Serial.print("Connecting to ");
 	Serial.println(ssid);
 	WiFi.begin(ssid, netPassword);
+	
 	while (WiFi.status() != WL_CONNECTED) {
 		delay(500);
 		Serial.print(".");
@@ -263,10 +324,9 @@ void HorseMaster::startUps() {
 
 	//Serial for debug on Master device
 	Serial1.begin(9600);
-	//Join i2c bus with SDA=D1 and SCL=D2 of the Node
+
+	//Joins i2c bus with SDA=D1 and SCL=D2 of the Node
 	Wire.begin(D1, D2);
 
 }
-void HorseMaster::userInfo() {
 
-}
