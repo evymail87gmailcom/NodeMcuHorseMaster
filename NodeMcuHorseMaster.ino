@@ -6,9 +6,9 @@
 
 int pinValue[2];
 //Blynk-key, wifi and  password
-const char auth[] = "4hPSchreMGmafdTADpF1IcNNndo5Byv6";
-const char* ssid = "#Telia-5BB008";
-const char* netPassword = "A()Zc14yN1#uZw8)";
+const char auth[] = "Addyourblynkauth";
+const char* ssid = "Addyourssid";
+const char* netPassword = "Addyourpassword";
 BlynkTimer timer;
 HorseMaster myMaster;
 unsigned long timedEvent = 20000;
