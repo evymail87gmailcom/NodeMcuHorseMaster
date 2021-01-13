@@ -102,7 +102,7 @@ void HorseMaster::sendDataToSql() {
 }
 void HorseMaster::getDataFromSql() {
 	//Function to getDataFromSql
-	MySQL_Cursor* cur_mem = new MySQL_Cursor(&mySqlConnection);  // Instans av en MySQL Cursor (där data transporteras)
+	MySQL_Cursor* cur_mem = new MySQL_Cursor(&mySqlConnection);  // Instans av en MySQL Cursor (dÃ¤r data transporteras)
 	row_values* row = NULL;
 	cur_mem->execute("SELECT * FROM findmyhorse.horsedata WHERE Id = (SELECT LAST_INSERT_ID());");
 	column_names* columns = cur_mem->get_columns();
@@ -287,13 +287,13 @@ void HorseMaster::startUps() {
 //IPAddress serverAdress(172,16,116,90);//IP that MySql is connected to. Not the Arduino Server.
 
 //Home 
-	const char* ssid = "#Telia-5BB008";
-	const char* netPassword = "A()Zc14yN1#uZw8)";
-	IPAddress serverAdress(192, 168, 1, 101);//IP that MySql is connected to. Not the Arduino Server.
+	const char* ssid = "wifi";
+	const char* netPassword = "password";
+	IPAddress serverAdress(insertyouriphere);//IP that MySql is connected to. Not the Arduino Server.
 
 	//MySql user and password
-	char user[] = "kurs1234";
-	char password[] = "kurs1234";
+	char user[] = "insertuser";
+	char password[] = "insertpassword";
 	
 	// Connect to Wi-Fi network with SSID and password
 	Serial.print("Connecting to ");
